@@ -103,24 +103,27 @@ public class MainActivity extends AppCompatActivity implements EventListener {
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
         System.out.println("MainActivity--------------onEvent()");
+        String stdStr="asr.partial";
+        if(name.equals(stdStr)){
+            System.out.println("MainActivity-----onEvent----name.queals(stdStr)="+name.equals(stdStr));
+            String logTxt = "name: " + name;
 
-        String logTxt = "name: " + name;
 
-
-        if (params != null && !params.isEmpty()) {
-            logTxt += " ;params :" + params;
-        }
-        if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
-            if (params.contains("\"nlu_result\"")) {
-                if (length > 0 && data.length > 0) {
-                    logTxt += ", 语义解析结果：" + new String(data, offset, length);
-                }
+            if (params != null && !params.isEmpty()) {
+                logTxt += " ;params :" + params;
             }
-        } else if (data != null) {
-            logTxt += " ;data length=" + data.length;
+            if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
+                if (params.contains("\"nlu_result\"")) {
+                    if (length > 0 && data.length > 0) {
+                        logTxt += ", 语义解析结果：" + new String(data, offset, length);
+                    }
+                }
+            } else if (data != null) {
+                logTxt += " ;data length=" + data.length;
+            }
+            printLog(logTxt);
+            System.out.println("MainActivity--------------onEvent()----logTxt"+logTxt);
         }
-        printLog(logTxt);
-        System.out.println("MainActivity--------------onEvent()----logTxt"+logTxt);
     }
     /**
      * 测试参数填在这里
