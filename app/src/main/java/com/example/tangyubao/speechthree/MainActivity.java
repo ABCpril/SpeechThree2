@@ -103,14 +103,25 @@ public class MainActivity extends AppCompatActivity implements EventListener {
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
         System.out.println("MainActivity--------------onEvent()");
+        String best_result="";
         String stdStr="asr.partial";
         if(name.equals(stdStr)){
             System.out.println("MainActivity-----onEvent----name.queals(stdStr)="+name.equals(stdStr));
-            String logTxt = "name: " + name;
-
+            //String logTxt = "name: " + name;
+            String logTxt = "";
 
             if (params != null && !params.isEmpty()) {
-                logTxt += " ;params :" + params;
+                System.out.println("MainActivity-----onEvent----params"+params);
+                String[] temp=params.split("\"best_result\":\"");
+                System.out.println("MainActivity-----onEvent----params=temp[1]="+params);
+                String[] temp2=temp[1].split("\",\"results_recognition");
+                params=temp2[0];
+                System.out.println("MainActivity-----onEvent----params=temp2[0]="+params);
+               // String[] temp3=params.split("\",\"result_recognition");
+              //  params=temp3[0];
+                //System.out.println("MainActivity-----onEvent----params=temp3[0]="+params);
+                //logTxt += " ;params :" + params;
+                logTxt +=params;
             }
             if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
                 if (params.contains("\"nlu_result\"")) {
@@ -157,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements EventListener {
     }
     private void printLog(String text) {
         if (logTime) {
-            text += "  ;time=" + System.currentTimeMillis();
+            //text += "  ;time=" + System.currentTimeMillis();
         }
         System.out.println("printLog()-----------------text----------"+text);
         text += "\n";
